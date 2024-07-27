@@ -1,5 +1,7 @@
+document.addEventListener('DOMContentLoaded', () => {
 const quoteDisplay = document.getElementById("quoteDisplay");
 const newQuote = document.getElementById("newQuote");
+
 
 const quotes = [
     {text: "This is a new begining " ,category: "motivation"},
@@ -11,29 +13,33 @@ const quotes = [
 function showRandomQuote(){
    const randomIndex = Math.floor(Math.random() * quotes.length)
    const randomQuote = quotes[randomIndex]
-    quoteDisplay.innerHTML= `"${randomQuote.text}- ${randomQuote.category}`
+    quoteDisplay.innerHTML= `<p>${randomQuote.text}</p><p><em>${randomQuote.category}</em></p>`
    
 }
-function addQuote(){
-    const newQuoteText = document.getElementById("newQuoteText").value;
-    const newQuoteCategory = document.getElementById("newQuoteCategory").value;
+newQuote.addEventListener('click', showRandomQuote);
 
-    if (newQuoteText.trim() !== '' && newQuoteCategory.trim() !== '') {
-    const newQuote = {
-      text: newQuoteText,
-      category: newQuoteCategory
-    };
-    quotes.push(newQuote);
-    showRandomQuote(); 
-  } else {
+function addQuote(){
+    const newQuoteText = document.getElementById("newQuoteText").value.trim();
+    const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
+
+    const text = newQuoteText.value.trim();
+    const category = newQuoteCategory.value.trim()
+
+    if (text && category) {
+    quotes.push(text, category); 
+    newQuoteText.value = '';
+    newQuoteCategory.value = '';
+    alert('New quote added!')
+ } else {
     alert('Please enter both quote text and category');
   }
 }
-newQuoteButton.addEventListener('click', showRandomQuote);
 
+ showRandomQuote();
+ const addQuoteButton = document.querySelector('button[onclick="addQuote()"]');
+  addQuoteButton.addEventListener('click', addQuote);
 
-
-
+});
 
 
 
