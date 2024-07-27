@@ -16,26 +16,26 @@ function showRandomQuote(){
     quoteDisplay.innerHTML= `<p>${randomQuote.text}</p><p><em>${randomQuote.category}</em></p>`
    
 }
-newQuote.addEventListener('click', showRandomQuote);
+
 
 function addQuote(){
     const newQuoteText = document.getElementById("newQuoteText").value.trim();
     const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
 
-    const text = newQuoteText.value.trim();
-    const category = newQuoteCategory.value.trim()
 
-    if (text && category) {
-    quotes.push(text, category); 
-    newQuoteText.value = '';
+
+    if (newQuoteText && newQuoteCategory) {
+    quotes.push({text:newQuoteText, category:newQuoteCategory}); 
+    document.getElementById("newQuoteText").value = '';
+    document.getElementById("newQuoteCategory").value= '';
     newQuoteCategory.value = '';
     alert('New quote added!')
  } else {
     alert('Please enter both quote text and category');
   }
 }
+newQuote.addEventListener('click', showRandomQuote);
 
- showRandomQuote();
  const addQuoteButton = document.querySelector('button[onclick="addQuote()"]');
   addQuoteButton.addEventListener('click', addQuote);
 
