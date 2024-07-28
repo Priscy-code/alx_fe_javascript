@@ -16,14 +16,26 @@ function showRandomQuote(){
     quoteDisplay.innerHTML= `<p>${randomQuote.text}</p><p><em>${randomQuote.category}</em></p>`
    
 }
-const newQuoteText = document.getElementById('newQuoteText');
-const newQuoteCategory = document.getElementById('newQuoteCategory');
 
 
 function createAddQuoteForm(){
     const newQuoteText = document.getElementById("newQuoteText").value.trim();
     const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
+    
+    const newQuoteDiv = document.createElement('div');
+    newQuoteDiv.classList.add('quote');
 
+    const quoteText = document.createElement('p');
+    quoteText.textContent = newQuoteText;
+    const quoteCategory = document.createElement('p');
+    quoteCategory.textContent=`Category: ${newQuoteCategory}`;
+
+    newQuoteDiv.appendChild(quoteText);
+    newQuoteDiv.appendChild(quoteCategory);
+
+    quoteDisplay.appendChild(newQuoteDiv);
+
+    
     if (newQuoteText && newQuoteCategory) {
     quotes.push({text:newQuoteText, category:newQuoteCategory}); 
     document.getElementById("newQuoteText").value = '';
