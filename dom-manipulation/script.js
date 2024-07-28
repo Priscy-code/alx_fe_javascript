@@ -51,6 +51,7 @@ function createAddQuoteForm(){
     alert('New quote added!');
     saveQuotesToLocalStorage();
     showRandomQuote();
+    populateCategories();
  } else {
     alert('Please enter both quote text and category');
   }
@@ -139,6 +140,7 @@ newQuote.addEventListener('click', showRandomQuote);
                 alert('Quotes imported successfully!');
                 saveQuotesToLocalStorage();
                 showRandomQuote();
+                populateCategories();
 
         };
          reader.readAsText(event.target.files[0]);
@@ -153,6 +155,36 @@ const importQuotesInput = document.getElementById('importQuotes');
 
 
 populateCategories();
+
+function postQuoteToServer(text, category){
+    fetch ('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify({text, category}),
+        headers:{
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+    })
+    .then(response => response.json())
+    .then(data = console.log('posted to server:', data))
+    .catch(error =console.error('Error posting to server:', error))
+}
+
+function fetchQuotesFromServer(){
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(response => response.json())
+    .then(data => {
+        const newQuote = data.map(
+            item => ({
+                text: item.body,
+                category:'Server'
+            })
+        );
+        Localquotes.push(...newQuote);
+        saveQuotesToLocalStorage();
+        console.log('Fetched from server:', newQuotes);
+    })
+     .catch(error => console.error('Error fetching from server:', error));
+}
 });
 
 
