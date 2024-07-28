@@ -70,25 +70,27 @@ newQuote.addEventListener('click', showRandomQuote);
   }
 
   const exportButton = document.getElementById('exportQuotes');
+   exportButton.addEventListener('click', exportQuotes);
   const Importfile = document.getElementById('importFile');
 
 
   function exportQuotes(){
-    const dataStr = "data: text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(quotes));
-    const downloadAnchorNode =document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr)
-    downloadAnchorNode.setAttribute("download", "storeQuotes.json");
-    document.body.appendChild(downloadAnchorNode); // required for firefox
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove(); 
-    // const dataStr = JSON.stringify(quotes, null, 2);
-    // const blod = new Blod([dataStr], {types: 'application/json'});
-    // const url = URL.createObjectURL(Blod);
-    // const a = document.createElement('a');
-    // a.href =url;
-    // a.download ='quotes.json'
-    // a.click();
-    // URL.revokeObjectURL(url)
+    // const dataStr = "data: text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(quotes));
+    // const downloadAnchorNode =document.createElement('a');
+    // downloadAnchorNode.setAttribute("href", dataStr)
+    // downloadAnchorNode.setAttribute("download", "storeQuotes.json");
+    // document.body.appendChild(downloadAnchorNode); // required for firefox
+    // downloadAnchorNode.click();
+    // downloadAnchorNode.remove(); 
+
+    const dataStr = JSON.stringify(quotes, null, 2);
+    const blod = new Blod([dataStr], {types: 'application/json'});
+    const url = URL.createObjectURL(blod);
+    const a = document.createElement('a');
+    a.href =url;
+    a.download ='quotes.json'
+    a.click();
+    URL.revokeObjectURL(url)
   }
 
   function importQuotes(event){
