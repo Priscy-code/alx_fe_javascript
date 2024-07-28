@@ -70,11 +70,11 @@ newQuote.addEventListener('click', showRandomQuote);
   }
 
   const exportButton = document.getElementById('exportQuotes');
-   exportButton.addEventListener('click', exportQuotes);
+//    exportButton.addEventListener('click', exportQuotes);
   const Importfile = document.getElementById('importFile');
 
 
-  function exportQuotes(){
+  function exportToJsonFile(){
     // const dataStr = "data: text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(quotes));
     // const downloadAnchorNode =document.createElement('a');
     // downloadAnchorNode.setAttribute("href", dataStr)
@@ -102,14 +102,22 @@ newQuote.addEventListener('click', showRandomQuote);
              reader.onload = function(event) {
                 const importedQuotes = JSON.parse(event.target.result);
                 quotes.push(...importedQuotes);
+                alert('Quotes imported successfully!');
                 saveQuotesToLocalStorage();
                 showRandomQuote();
 
-        }
+        };
+         reader.readAsText(event.target.files[0]);
     }
-     reader.readAsText(event.target.files[0]);
   }
-  exportButton.addEventListener('click', exportQuotes);
+  exportButton.addEventListener('click', exportToJsonFile);
+
+}
+
+const importQuotesInput = document.getElementById('importQuotes');
+  importQuotesInput.addEventListener('change', importQuotes);
+
+
 
 });
 
