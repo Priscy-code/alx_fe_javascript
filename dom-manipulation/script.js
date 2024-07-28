@@ -180,7 +180,7 @@ async function fetchQuotesFromServer(){
         return [];
     }
 }
-function startDataSync(){
+function syncQuotes(){
     setInterval(asyn () => {
         const serverQuotes = await fetchQuotesFromServer();
     }, 5000)
@@ -197,8 +197,7 @@ function showSyncNotification(message) {
   console.log(message); 
 }
 
-
-startDataSync();
+syncQuotes();
 
 
 
