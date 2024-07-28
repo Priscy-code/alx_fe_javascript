@@ -84,7 +84,7 @@ newQuote.addEventListener('click', showRandomQuote);
     // downloadAnchorNode.remove(); 
 
     const dataStr = JSON.stringify(quotes, null, 2);
-    const blod = new Blod([dataStr], {types: 'application/json'});
+    const blod = new Blob([dataStr], {types: 'application/json'});
     const url = URL.createObjectURL(blod);
     const a = document.createElement('a');
     a.href =url;
