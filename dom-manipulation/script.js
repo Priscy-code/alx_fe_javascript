@@ -11,13 +11,19 @@ const quotes = [
 ];
 
 function showRandomQuote(){
+    const filteredQuotes = filterQuotesArray();
+      if (filteredQuotes.length === 0) {
+      quoteDisplay.innerHTML = "No quotes available for the selected category.";
+      return;}
+
+
    const randomIndex = Math.floor(Math.random() * quotes.length)
    const randomQuote = quotes[randomIndex]
     quoteDisplay.innerHTML= `<p>${randomQuote.text}</p><p><em>${randomQuote.category}</em></p>`;
     sessionStorage.setItem('lastviewQuote', JSON.stringify(storeQuotes));
    
-}
 
+}
 
 function createAddQuoteForm(){
     const newQuoteText = document.getElementById("newQuoteText").value.trim();
@@ -55,7 +61,7 @@ newQuote.addEventListener('click', showRandomQuote);
   addQuoteButton.addEventListener('click', createAddQuoteForm);
 
   const storeQuotes = localStorage.getItem('quotes')
-  const Localquotes = storeQuotes ? JSON.parse(storeQuotes):defaultQuotes;
+  const Localquotes = storeQuotes ? JSON.parse(storeQuotes):quotes;
 
   function saveQuotesToLocalStorage(){
     localStorage.setItem('quotes', JSON.stringify(Localquotes))
@@ -68,9 +74,34 @@ newQuote.addEventListener('click', showRandomQuote);
   }else {
     showRandomQuote();
   }
+  function populateCategoryFilter(){
+    const categories = [...new Set(Localquotes.map(quote => quote.category))];
+    categoryFilter.innerHTML = '<option value="all">All Categories</option>'
+    categories.forEach (category => {
+        const Option = document.createElement('option');
+        Option.value = category;
+        Option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+    const lastSelectedCategory = localStorage.getItem('selectedCategory');
+    if (lastSelectedCategory) {
+      categoryFilter.value = lastSelectedCategory;
+    }
+  }
+  function filterQuotes(){
+    const selectedCategory = categoryFilter.value;
+    localStorage.setItem('selectedCategory', selectedCategory);
+    showRandomQuote();
+  }
+   function filterQuotesArray() {
+    const selectedCategory = categoryFilter.value;
+    if (selectedCategory === 'all') {
+      return quotes;
+    }
+    return quotes.filter(quote => quote.category === selectedCategory);
+  }
 
   const exportButton = document.getElementById('exportQuotes');
-//    exportButton.addEventListener('click', exportQuotes);
   const Importfile = document.getElementById('importFile');
 
 
@@ -118,7 +149,7 @@ const importQuotesInput = document.getElementById('importQuotes');
   importQuotesInput.addEventListener('change', importQuotes);
 
 
-
+ populateCategoryFilter();
 });
 
 
