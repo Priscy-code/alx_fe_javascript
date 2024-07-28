@@ -14,7 +14,7 @@ function showRandomQuote(){
    const randomIndex = Math.floor(Math.random() * quotes.length)
    const randomQuote = quotes[randomIndex]
     quoteDisplay.innerHTML= `<p>${randomQuote.text}</p><p><em>${randomQuote.category}</em></p>`;
-    sessionStorage.setItem('latviewQuote', JSON.stringify(randomQuote));
+    sessionStorage.setItem('lastviewQuote', JSON.stringify(storeQuotes));
    
 }
 
@@ -68,6 +68,46 @@ newQuote.addEventListener('click', showRandomQuote);
   }else {
     showRandomQuote();
   }
+
+  const exportButton = document.getElementById('exportQuotes');
+  const Importfile = document.getElementById('importFile');
+
+
+  function exportQuotes(){
+    const dataStr = "data: text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(quotes));
+    const downloadAnchorNode =document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr)
+    downloadAnchorNode.setAttribute("download", "storeQuotes.json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove(); 
+    // const dataStr = JSON.stringify(quotes, null, 2);
+    // const blod = new Blod([dataStr], {types: 'application/json'});
+    // const url = URL.createObjectURL(Blod);
+    // const a = document.createElement('a');
+    // a.href =url;
+    // a.download ='quotes.json'
+    // a.click();
+    // URL.revokeObjectURL(url)
+  }
+
+  function importQuotes(event){
+    const file = event.target.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+             const reader = new FileReader();
+             reader.onload = function(event) {
+                const importedQuotes = JSON.parse(event.target.result);
+                quotes.push(...importedQuotes);
+                saveQuotesToLocalStorage();
+                showRandomQuote();
+
+        }
+    }
+     reader.readAsText(event.target.files[0]);
+  }
+  exportButton.addEventListener('click', exportQuotes);
 
 });
 
