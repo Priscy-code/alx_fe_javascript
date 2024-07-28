@@ -13,7 +13,8 @@ const quotes = [
 function showRandomQuote(){
    const randomIndex = Math.floor(Math.random() * quotes.length)
    const randomQuote = quotes[randomIndex]
-    quoteDisplay.innerHTML= `<p>${randomQuote.text}</p><p><em>${randomQuote.category}</em></p>`
+    quoteDisplay.innerHTML= `<p>${randomQuote.text}</p><p><em>${randomQuote.category}</em></p>`;
+    sessionStorage.setItem('latviewQuote', JSON.stringify(randomQuote));
    
 }
 
@@ -35,13 +36,15 @@ function createAddQuoteForm(){
 
     quoteDisplay.appendChild(newQuoteDiv);
 
-    
+
     if (newQuoteText && newQuoteCategory) {
     quotes.push({text:newQuoteText, category:newQuoteCategory}); 
     document.getElementById("newQuoteText").value = '';
     document.getElementById("newQuoteCategory").value= '';
     newQuoteCategory.value = '';
-    alert('New quote added!')
+    alert('New quote added!');
+    saveQuotesToLocalStorage();
+    showRandomQuote();
  } else {
     alert('Please enter both quote text and category');
   }
@@ -50,6 +53,21 @@ newQuote.addEventListener('click', showRandomQuote);
 
  const addQuoteButton = document.querySelector('button[onclick="createAddQuoteForm()"]');
   addQuoteButton.addEventListener('click', createAddQuoteForm);
+
+  const storeQuotes = localStorage.getItem('quotes')
+  const Localquotes = storeQuotes ? JSON.parse(storeQuotes):defaultQuotes;
+
+  function saveQuotesToLocalStorage(){
+    localStorage.setItem('quotes', JSON.stringify(Localquotes))
+  };
+
+  const lastviewQuote = sessionStorage.getItem('lastViewquote');
+  if (lastviewQuote){
+    const quote =JSON.parse(lastviewQuote);
+    quoteDisplay.innerHTML = `"${quote.text}" - ${quote.category}`
+  }else {
+    showRandomQuote();
+  }
 
 });
 
