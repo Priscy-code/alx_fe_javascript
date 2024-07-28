@@ -189,17 +189,13 @@ async function syncData() {
   const serverQuotes = await fetchQuotesFromServer();
   quotes = serverQuotes;
   saveQuotesToLocalStorage();
-  showSyncNotification('Data synced from server');
+  showSyncNotification('Quotes synced with server!');
 }
 function showSyncNotification(message) {
-    function showSyncNotification(message) {
-  console.log(message); // Replace with your notification system
-}
-showSyncNotification('Quotes synced with server!');
-    // notificationArea.innerHTML = message;
-    // setTimeout(() => {
-    //     notificationArea.innerHTML ='';
-    // }, 5000);
+    notificationArea.innerHTML = message;
+    setTimeout(() => {
+        notificationArea.innerHTML ='';
+    }, 5000);
 }
 
 syncQuotes();
