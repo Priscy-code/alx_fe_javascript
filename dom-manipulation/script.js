@@ -168,23 +168,56 @@ function postQuoteToServer(text, category){
     .then(data = console.log('posted to server:', data))
     .catch(error =console.error('Error posting to server:', error))
 }
+const apiurl= 'https://jsonplaceholder.typicode.com/posts';
 
-function fetchQuotesFromServer(){
-    fetch('https://jsonplaceholder.typicode.com/posts')
-    .then(response => response.json())
-    .then(data => {
-        const newQuote = data.map(
-            item => ({
-                text: item.body,
-                category:'Server'
-            })
-        );
-        Localquotes.push(...newQuote);
-        saveQuotesToLocalStorage();
-        console.log('Fetched from server:', newQuotes);
-    })
-     .catch(error => console.error('Error fetching from server:', error));
+async function fetchQuotesFromServer(){
+    try{
+        const response = await fetch(apiurl);
+        const data = await response.json();
+        return data;
+    }catch(error){
+        console.error('Error fetching quotes:', error);
+        return [];
+    }
 }
+function startDataSync(){
+    setInterval(asyn () => {
+        const serverQuotes = await fetchQuotesFromServer();
+    }, 5000)
+}
+async function syncData() {
+  const serverQuotes = await fetchQuotesFromServer();
+
+  // Simple conflict resolution: Overwrite local quotes with server quotes
+  quotes = serverQuotes;
+  saveQuotesToLocalStorage();
+  showSyncNotification('Data synced from server');
+}
+function showSyncNotification(message) {
+  console.log(message); 
+}
+
+
+startDataSync();
+
+
+
+// function fetchQuotesFromServer(){
+//     fetch('https://jsonplaceholder.typicode.com/posts')
+//     .then(response => response.json())
+//     .then(data => {
+//         const newQuote = data.map(
+//             item => ({
+//                 text: item.body,
+//                 category:'Server'
+//             })
+//         );
+//         Localquotes.push(...newQuote);
+//         saveQuotesToLocalStorage();
+//         console.log('Fetched from server:', newQuotes);
+//     })
+//      .catch(error => console.error('Error fetching from server:', error));
+// }
 });
 
 
