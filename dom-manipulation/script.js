@@ -76,7 +76,7 @@ newQuote.addEventListener('click', showRandomQuote);
   }
   const categoryFilter = document.getElementById('categoryFilter');
 
-  function populateCategoryFilter(){
+  function populateCategories(){
     const categories = [...new Set(Localquotes.map(quote => quote.category))];
     categoryFilter.innerHTML = '<option value="all">All Categories</option>'
     categories.forEach (category => {
@@ -152,7 +152,7 @@ const importQuotesInput = document.getElementById('importQuotes');
   importQuotesInput.addEventListener('change', importQuotes);
 
 
- populateCategoryFilter();
+populateCategories();
 });
 
 
