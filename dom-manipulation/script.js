@@ -187,14 +187,15 @@ function syncQuotes(){
 }
 async function syncData() {
   const serverQuotes = await fetchQuotesFromServer();
-
-  // Simple conflict resolution: Overwrite local quotes with server quotes
   quotes = serverQuotes;
   saveQuotesToLocalStorage();
   showSyncNotification('Data synced from server');
 }
 function showSyncNotification(message) {
-  console.log(message); 
+    notificationArea.innerHTML = message;
+    setTimeout(() => {
+        notificationArea.innerHTML ='';
+    }, 5000);
 }
 
 syncQuotes();
