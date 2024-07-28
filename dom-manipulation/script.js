@@ -192,10 +192,14 @@ async function syncData() {
   showSyncNotification('Data synced from server');
 }
 function showSyncNotification(message) {
-    notificationArea.innerHTML = message;
-    setTimeout(() => {
-        notificationArea.innerHTML ='';
-    }, 5000);
+    function showSyncNotification(message) {
+  console.log(message); // Replace with your notification system
+}
+showSyncNotification('Quotes synced with server!');
+    // notificationArea.innerHTML = message;
+    // setTimeout(() => {
+    //     notificationArea.innerHTML ='';
+    // }, 5000);
 }
 
 syncQuotes();
