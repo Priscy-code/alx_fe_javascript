@@ -1,4 +1,4 @@
-// document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 const quoteDisplay = document.getElementById("quoteDisplay");
 const newQuote = document.getElementById("newQuote");
 
@@ -19,38 +19,27 @@ function showRandomQuote(){
 const newQuoteText = document.getElementById('newQuoteText');
 const newQuoteCategory = document.getElementById('newQuoteCategory');
 
-function addQuote() {
-  const quoteText = newQuoteText.value;
-  const quoteCategory = newQuoteCategory.value;
 
-  if (quoteText.trim() !== '') {
-    const newQuote = { text: quoteText, category: quoteCategory };
-    quotes.push(newQuote);
-    newQuoteText.value = '';
+function createAddQuoteForm(){
+    const newQuoteText = document.getElementById("newQuoteText").value.trim();
+    const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
+
+    if (newQuoteText && newQuoteCategory) {
+    quotes.push({text:newQuoteText, category:newQuoteCategory}); 
+    document.getElementById("newQuoteText").value = '';
+    document.getElementById("newQuoteCategory").value= '';
     newQuoteCategory.value = '';
-    showRandomQuote(); // Display the newly added quote
-  }}
+    alert('New quote added!')
+ } else {
+    alert('Please enter both quote text and category');
+  }
+}
+newQuote.addEventListener('click', showRandomQuote);
 
-// function addQuote(){
-//     const newQuoteText = document.getElementById("newQuoteText").value.trim();
-//     const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
+ const addQuoteButton = document.querySelector('button[onclick="createAddQuoteForm()"]');
+  addQuoteButton.addEventListener('click', createAddQuoteForm);
 
-//     if (newQuoteText && newQuoteCategory) {
-//     quotes.push({text:newQuoteText, category:newQuoteCategory}); 
-//     document.getElementById("newQuoteText").value = '';
-//     document.getElementById("newQuoteCategory").value= '';
-//     newQuoteCategory.value = '';
-//     alert('New quote added!')
-//  } else {
-//     alert('Please enter both quote text and category');
-//   }
-// }
-// newQuote.addEventListener('click', showRandomQuote);
-
-//  const addQuoteButton = document.querySelector('button[onclick="addQuote()"]');
-//   addQuoteButton.addEventListener('click', addQuote);
-
-// });
+});
 
 
 
