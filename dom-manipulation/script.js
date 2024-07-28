@@ -44,7 +44,7 @@ function createAddQuoteForm(){
 
 
     if (newQuoteText && newQuoteCategory) {
-    quotes.push({text:newQuoteText, category:newQuoteCategory}); 
+    Localquotesquotes.push({text:newQuoteText, category:newQuoteCategory}); 
     document.getElementById("newQuoteText").value = '';
     document.getElementById("newQuoteCategory").value= '';
     newQuoteCategory.value = '';
@@ -74,6 +74,8 @@ newQuote.addEventListener('click', showRandomQuote);
   }else {
     showRandomQuote();
   }
+  const categoryFilter = document.getElementById('categoryFilter');
+
   function populateCategoryFilter(){
     const categories = [...new Set(Localquotes.map(quote => quote.category))];
     categoryFilter.innerHTML = '<option value="all">All Categories</option>'
@@ -83,6 +85,7 @@ newQuote.addEventListener('click', showRandomQuote);
         Option.textContent = category;
         categoryFilter.appendChild(option);
     });
+
     const lastSelectedCategory = localStorage.getItem('selectedCategory');
     if (lastSelectedCategory) {
       categoryFilter.value = lastSelectedCategory;
@@ -98,7 +101,7 @@ newQuote.addEventListener('click', showRandomQuote);
     if (selectedCategory === 'all') {
       return quotes;
     }
-    return quotes.filter(quote => quote.category === selectedCategory);
+    return Localquotesquotes.filter(quote => quote.category === selectedCategory);
   }
 
   const exportButton = document.getElementById('exportQuotes');
